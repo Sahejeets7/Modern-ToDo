@@ -21,9 +21,9 @@ body{
     display: grid;
     grid: 
         "header header header header" auto    
-        /* auto means to take the height of the content inside */
         "...... lists  active ......" auto /
-        1fr minmax(100px,300px) minmax(250px,500px) 1fr;    
+        1fr minmax(100px,500px) minmax(250px,500px) 1fr;    
+        /* auto means to take the height of the content inside */
         /* 1fr - take whatever is the remaining available space */
 }
 
@@ -37,9 +37,36 @@ body{
     font-weight: 900;    
 }
 
+form{
+    display: flex;
+}
+
+.btn{
+    cursor: pointer;
+    background: 0;
+    border: 0;
+    color: inherit;
+    outline: none;
+}
+
+.btn.create{
+    margin-right: 0.5em;
+    font-size: 1.5rem;
+    font-weight: 900;
+    transition: opacity 250ms ease;
+}
+
+.create-new-todo .btn.create{
+    color: var(--clr-primary);
+}
+
+.btn.create:hover{
+    opacity: 0.7;
+}
+
 .all-lists{
     grid-area: lists;
-    line-height: 1.7;
+    line-height: 1.7;    
 }
 
 .all-lists-names{
@@ -48,15 +75,185 @@ body{
     padding-left: 1.5em;
 }
 
+.list-name{
+    cursor: pointer;      
+}
+
+.list-name:hover{
+    opacity: 0.7;
+}
+
 .active-list{
     font-weight: 700;
 }
 
 .new{
     background: transparent;
-    
+    border:0;
+    color: inherit;
+    border-bottom: 1px solid currentColor;
+    font-size: inherit;
+    outline: none;
+    transition: border-bottom 200ms ease;
+    order:2;
+    padding: .25em;
 }
 
-.todos{
-    grid-area: active;
+.new.list{
+    font-size: 1.1rem;
 }
+
+
+.new:focus{
+    border-bottom-width: 3px;
+}
+
+.new.todo:focus{
+    color: var(--clr-primary);
+}
+
+.new::placeholder{
+    color: inherit;
+    opacity: 0.3;
+}
+/* got to know there is placeholder as a pseudo element */
+
+.todos{
+    --spacer: 2rem;
+
+    grid-area: active;
+    background: var(--clr-light);
+    color: var(--clr-dark);
+}
+
+.todo-header{
+    padding: var(--spacer);
+    display: flex;
+    align-items:center;
+    justify-content: space-between;
+    background-color: #e4e4e4;
+}    
+
+.todo-title{
+    margin-right: 1em;
+}
+
+.todo-count{
+    font-size: 1rem;
+}
+
+.todo-body{
+    padding: var(--spacer);
+    position: relative;
+}
+
+
+[type="checkbox"]{
+    opacity: 0;
+    position: absolute;  
+    /* opacity hides it and absolute takes it out of the flow of the document */
+}
+
+.todo-item label{
+    /* display: flex; */
+    display: inline-flex;
+    align-items: center;
+    /* margin-bottom: 1.25em; */
+    position: relative;
+    cursor: pointer;    
+}
+
+.todo-item{
+    position: relative;
+    margin-bottom: 1.25em;  
+}
+
+.todo-item::after{
+    content: "";
+    background: currentColor;
+    height: 1px;
+    position: absolute;
+    left:0;
+    right: 0;
+    bottom: -50%; 
+    opacity: 0.1;
+}
+
+.custom-checkbox{
+    --size: .75em; 
+
+    display: inline-block;
+    /* never really understood inline-block */
+    height: var(--size);
+    width: var(--size);
+    margin-right: var(--size);
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    cursor: pointer;
+    transition: transform 200ms ease;
+}
+
+
+.todo-item:hover .custom-checkbox, [type="checkbox"]:focus + label .custom-checkbox{
+    transform: scale(1.2);
+    color: var(--clr-primary);
+
+    /* all these extra selectors above for enabling tabbing through the list using the keyboard */
+}
+
+[type="checkbox"]:checked + label .custom-checkbox{
+    background: var(--clr-primary);
+    border-color: var(--clr-primary);
+    box-shadow: inset 0 0 0 2px white;
+}
+
+[type="checkbox"]:checked + label{
+    opacity: 0.6;
+    /* text-decoration: line-through; */
+}
+
+/* for custom-strikethrough */
+.todo-item label::after{
+    content:"";
+    position: absolute;
+    left: 1.4em;
+    right: 0;
+    /* top: 50%; */
+    height: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    /* interesting use of Transform: scaleX(0) to hide the element and then make it appear using scaleX(1) */
+    transition: transform 150ms ease;
+    transform-origin: right;
+}
+
+[type="checkbox"]:checked + label::after{
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.delete-todos{
+    display: flex;
+    justify-content: space-evenly;
+    /* space-evenly centers the content in the space present unlike space-around */
+    position: absolute;
+    bottom: -2em;
+    color: var(--clr-light);
+    width: 100%; 
+    /* without width it was sticking and overlapping with each other */
+    left:0;    
+}
+
+.btn.delete{
+    font-size: 1.3rem;
+    opacity:0.8;
+    letter-spacing: 1px;
+    /* always have letter-spacing in px not in em,rem */
+}
+
+.btn.delete:hover{
+    color: var(--clr-warning);
+    font-weight: 500;
+}
+
+
