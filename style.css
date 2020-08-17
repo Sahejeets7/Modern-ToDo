@@ -1,0 +1,62 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    --clr-primary:rgb(54,112,199);
+    --clr-dark: #333;
+    --clr-light: #f4f4f4;
+    --clr-warning: rgb(99,36,36);
+}
+
+body{    
+    background-color: rgb(63, 129, 216);
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 300;
+    font-size: 1.5rem;
+    color: var(--clr-light);
+
+    display: grid;
+    grid: 
+        "header header header header" auto    
+        /* auto means to take the height of the content inside */
+        "...... lists  active ......" auto /
+        1fr minmax(100px,300px) minmax(250px,500px) 1fr;    
+        /* 1fr - take whatever is the remaining available space */
+}
+
+.title{
+    grid-area: header;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.1);
+    font-size: calc(7vw + 2rem);
+    letter-spacing: 2px;
+    margin: -0.3em 0 0.5em;
+    font-weight: 900;    
+}
+
+.all-lists{
+    grid-area: lists;
+    line-height: 1.7;
+}
+
+.all-lists-names{
+    list-style: circle;
+    font-size: 1.2rem;
+    padding-left: 1.5em;
+}
+
+.active-list{
+    font-weight: 700;
+}
+
+.new{
+    background: transparent;
+    
+}
+
+.todos{
+    grid-area: active;
+}
